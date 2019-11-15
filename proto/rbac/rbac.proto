@@ -1,0 +1,46 @@
+syntax = "proto3";
+// import "proto/include/google/protobuf/any.proto";
+package rbac;
+
+service RbacService {
+  // your model Requests
+  rpc FindRbacList(FindRequest) returns (stream Rbac) {}
+  rpc GetRbacById(GetRequest) returns (Rbac) {}
+  rpc CreateRbac(CreateRbacRequest) returns (Rbac) {}
+  rpc UpdateRbac(UpdateRbacRequest) returns (Rbac) {}
+  rpc UpdateRbacById(UpdateRbacByIdRequest) returns (Rbac) {}
+  rpc DeleteRbac(FindRequest) returns (DeleteResult) {}
+  rpc DeleteRbacById(GetRequest) returns (DeleteResult) {}
+}
+
+message FindRequest { string query = 1; }
+
+message GetRequest {
+  string id = 1;
+  string query = 2;
+}
+
+message CreateRbacRequest { string name = 1; }
+
+message UpdateRbacRequest {
+  string query = 1;
+  CreateRbacRequest obj = 2;
+}
+
+message UpdateRbacByIdRequest {
+  string id = 1;
+  CreateRbacRequest obj = 2;
+}
+
+message DeleteResult {
+  bool state = 1;
+  int32 num = 2;
+}
+
+message Rbac {
+  string id = 1;
+  string name = 2;
+  string createdAt = 13;
+  string updatedAt = 14;
+  string deletedAt = 15;
+}
