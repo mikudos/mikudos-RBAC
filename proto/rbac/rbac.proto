@@ -4,8 +4,8 @@ package rbac;
 
 service GrpcService {
   rpc ListGrpcServer(FindRequest) returns (stream Rbac) {}
-  rpc ListAllServicesWithFullPath(FindRequest) returns (stream Rbac) {}
-  rpc ListAllMethodsWithFullPath(FindRequest) returns (stream Rbac) {}
+  rpc ListServicesWithFullPath(FindRequest) returns (stream Rbac) {}
+  rpc ListMethodsWithFullPath(FindRequest) returns (stream Rbac) {}
   rpc GetServiceListOnServer(FindRequest) returns (stream Rbac) {}
   rpc getMethodsListInService(FindRequest) returns (stream Rbac) {}
 }
@@ -17,6 +17,8 @@ service RoleService {
   rpc UpdateRoleById(GetRequest) returns (Role) {}
   rpc DeleteRole(FindRequest) returns (DeleteResult) {}
   rpc DeleteRoleById(GetRequest) returns (DeleteResult) {}
+  rpc AddAccessToRoleByRid(Role) returns (Role) {}
+  rpc DelAccessToRoleByRid(Role) returns (Role) {}
 }
 
 service GroupService {
@@ -26,6 +28,8 @@ service GroupService {
   rpc UpdateGroupById(GetRequest) returns (Group) {}
   rpc DeleteGroup(FindRequest) returns (DeleteResult) {}
   rpc DeleteGroupById(GetRequest) returns (DeleteResult) {}
+  rpc AddRoleIdsToGroupByGid(Group) returns (Group) {}
+  rpc DelRoleIdsToGroupByGid(Group) returns (Group) {}
 }
 
 service RbacService {
@@ -37,6 +41,7 @@ service RbacService {
   rpc UpdateRbacById(UpdateRbacByIdRequest) returns (Rbac) {}
   rpc DeleteRbac(FindRequest) returns (DeleteResult) {}
   rpc DeleteRbacById(GetRequest) returns (DeleteResult) {}
+  rpc VerifyAccessRight(Role) returns (Role) {}
 }
 
 message FindRequest { string query = 1; }
