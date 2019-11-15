@@ -2,6 +2,32 @@ syntax = "proto3";
 // import "proto/include/google/protobuf/any.proto";
 package rbac;
 
+service GrpcService {
+  rpc ListGrpcServer(FindRequest) returns (stream Rbac) {}
+  rpc ListAllServicesWithFullPath(FindRequest) returns (stream Rbac) {}
+  rpc ListAllMethodsWithFullPath(FindRequest) returns (stream Rbac) {}
+  rpc GetServiceListOnServer(FindRequest) returns (stream Rbac) {}
+  rpc getMethodsListInService(FindRequest) returns (stream Rbac) {}
+}
+
+service RoleService {
+  rpc ListRole(FindRequest) returns (stream Role) {}
+  rpc GetOneRole(GetRequest) returns (Role) {}
+  rpc CreateRole(Role) returns (Role) {}
+  rpc UpdateRoleById(GetRequest) returns (Role) {}
+  rpc DeleteRole(FindRequest) returns (DeleteResult) {}
+  rpc DeleteRoleById(GetRequest) returns (DeleteResult) {}
+}
+
+service GroupService {
+  rpc ListGroup(FindRequest) returns (stream Group) {}
+  rpc GetOneGroup(GetRequest) returns (Group) {}
+  rpc CreateGroup(Group) returns (Group) {}
+  rpc UpdateGroupById(GetRequest) returns (Group) {}
+  rpc DeleteGroup(FindRequest) returns (DeleteResult) {}
+  rpc DeleteGroupById(GetRequest) returns (DeleteResult) {}
+}
+
 service RbacService {
   // your model Requests
   rpc FindRbacList(FindRequest) returns (stream Rbac) {}
@@ -35,6 +61,22 @@ message UpdateRbacByIdRequest {
 message DeleteResult {
   bool state = 1;
   int32 num = 2;
+}
+
+message Role {
+  string id = 1;
+  string name = 2;
+  string createdAt = 13;
+  string updatedAt = 14;
+  string deletedAt = 15;
+}
+
+message Group {
+  string id = 1;
+  string name = 2;
+  string createdAt = 13;
+  string updatedAt = 14;
+  string deletedAt = 15;
 }
 
 message Rbac {
