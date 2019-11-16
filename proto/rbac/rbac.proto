@@ -17,6 +17,7 @@ service RoleService {
   rpc UpdateRoleById(GetRequest) returns (Role) {}
   rpc DeleteRole(FindRequest) returns (DeleteResult) {}
   rpc DeleteRoleById(GetRequest) returns (DeleteResult) {}
+  rpc GetRoleAccessesById(Role) returns (Role) {}
   rpc AddAccessToRoleByRid(Role) returns (Role) {}
   rpc DelAccessToRoleByRid(Role) returns (Role) {}
 }
@@ -28,20 +29,14 @@ service GroupService {
   rpc UpdateGroupById(GetRequest) returns (Group) {}
   rpc DeleteGroup(FindRequest) returns (DeleteResult) {}
   rpc DeleteGroupById(GetRequest) returns (DeleteResult) {}
+  rpc GetGroupAccessesById(Group) returns (Group) {}
   rpc AddRoleIdsToGroupByGid(Group) returns (Group) {}
   rpc DelRoleIdsToGroupByGid(Group) returns (Group) {}
 }
 
 service RbacService {
-  // your model Requests
-  rpc FindRbacList(FindRequest) returns (stream Rbac) {}
-  rpc GetRbacById(GetRequest) returns (Rbac) {}
-  rpc CreateRbac(CreateRbacRequest) returns (Rbac) {}
-  rpc UpdateRbac(UpdateRbacRequest) returns (Rbac) {}
-  rpc UpdateRbacById(UpdateRbacByIdRequest) returns (Rbac) {}
-  rpc DeleteRbac(FindRequest) returns (DeleteResult) {}
-  rpc DeleteRbacById(GetRequest) returns (DeleteResult) {}
-  rpc VerifyAccessRight(Role) returns (Role) {}
+  rpc VerifyAccessRightWithRids(VerifyWithIdsRequest) returns (Rbac) {}
+  rpc VerifyAccessRightWithGids(VerifyWithIdsRequest) returns (Rbac) {}
 }
 
 message FindRequest { string query = 1; }
@@ -90,4 +85,9 @@ message Rbac {
   string createdAt = 13;
   string updatedAt = 14;
   string deletedAt = 15;
+}
+
+message VerifyWithIdsRequest {
+  required string fullPathMethod = 1;
+  repeated int32 ids = 2;
 }
