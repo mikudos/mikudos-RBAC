@@ -1,3 +1,5 @@
+
+
 export default class {
     options: any;
     constructor(options?: any) {
@@ -5,13 +7,17 @@ export default class {
     }
 
     async VerifyAccessRightWithRids(ctx: any) {
-        let app = ctx.app;
-        ctx.response.res = { message: 'Hello '.concat(ctx.req.name) };
+        const app = ctx.app;
+
+        ctx.res = { message: 'Hello '.concat(ctx.req.name) };
+
     }
 
     async VerifyAccessRightWithGids(ctx: any) {
-        let app = ctx.app;
-        ctx.response.res = { message: 'Hello '.concat(ctx.req.name) };
+        const app = ctx.app;
+
+        ctx.res = { message: 'Hello '.concat(ctx.req.name) };
+
     }
 
 }

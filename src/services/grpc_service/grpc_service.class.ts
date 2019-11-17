@@ -1,3 +1,5 @@
+import highland from "highland";
+
 export default class {
     options: any;
     constructor(options?: any) {
@@ -5,28 +7,43 @@ export default class {
     }
 
     async ListGrpcServer(ctx: any) {
-        let app = ctx.app;
-        ctx.response.res = { message: 'Hello '.concat(ctx.req.name) };
+        const app = ctx.app;
+
+        ctx.res = highland([{message: "Hello!"}]);
+        ctx.res.end();
+
     }
 
     async ListServicesWithFullPath(ctx: any) {
-        let app = ctx.app;
-        ctx.response.res = { message: 'Hello '.concat(ctx.req.name) };
+        const app = ctx.app;
+
+        ctx.res = highland([{message: "Hello!"}]);
+        ctx.res.end();
+
     }
 
     async ListMethodsWithFullPath(ctx: any) {
-        let app = ctx.app;
-        ctx.response.res = { message: 'Hello '.concat(ctx.req.name) };
+        const app = ctx.app;
+
+        ctx.res = highland([{message: "Hello!"}]);
+        ctx.res.end();
+
     }
 
     async GetServiceListOnServer(ctx: any) {
-        let app = ctx.app;
-        ctx.response.res = { message: 'Hello '.concat(ctx.req.name) };
+        const app = ctx.app;
+
+        ctx.res = highland([{message: "Hello!"}]);
+        ctx.res.end();
+
     }
 
     async getMethodsListInService(ctx: any) {
-        let app = ctx.app;
-        ctx.response.res = { message: 'Hello '.concat(ctx.req.name) };
+        const app = ctx.app;
+
+        ctx.res = highland([{message: "Hello!"}]);
+        ctx.res.end();
+
     }
 
 }
