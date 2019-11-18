@@ -37,7 +37,8 @@
         "kafkajs": "^1.10.0",
         "mali": "^0.18.0",
         "mikudos-node-app": "^1.0.7",
-        "mongoose": "^5.6.11"
+        "mysql2": "^2.0.0",
+        "sequelize": "^5.21.2"
     },
     "devDependencies": {
         "@types/config": "0.0.35",

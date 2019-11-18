@@ -1,4 +1,4 @@
-import examples from './examples.model';
+import examples from './methods.model';
 import { Application } from 'mikudos-node-app';
 
 export = function(app: Application): void {

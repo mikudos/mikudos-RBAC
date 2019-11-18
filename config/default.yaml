@@ -2,10 +2,9 @@ app: "mikudos-service-ts"
 consumer_group: "mikudos-service-ts"
 brokers:
   - "127.0.0.1:9092"
-mongodb: "mongodb+srv://qiushanyu666:qiushanyu666@cluster0-exxbz.mongodb.net/yue?retryWrites=true"
+mysql: "mysql://root:@localhost:3306/temp_sqlite"
 port: 50051
 interServiceClients:
-
   ali_oss:
     name: "127.0.0.1"
     port: "50051"
