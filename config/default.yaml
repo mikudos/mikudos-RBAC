@@ -2,7 +2,7 @@ app: "mikudos-service-ts"
 consumer_group: "mikudos-service-ts"
 brokers:
   - "127.0.0.1:9092"
-mysql: "mysql://root:@localhost:3306/rbac"
+mysql: "mysql://root:EventMysqlServerPassword@localhost:3306/rbac"
 port: 50051
 interServiceClients:
   ali_oss:

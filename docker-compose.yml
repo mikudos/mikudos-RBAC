@@ -11,7 +11,7 @@ services:
       MYSQL_PASSWORD: event
       MYSQL_ROOT_PASSWORD: EventMysqlServerPassword
     volumes:
-      - "/Users/mac/develop/data/mysql:/var/lib/mysql"
+      - "$PWD/data/mysql:/var/lib/mysql"
   adminer:
     image: adminer
     # restart: always

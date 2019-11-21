@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize';
+// const { Sequelize } = require('sequelize');
 import { Application } from 'mikudos-node-app';
 
 export default function(app: Application) {
