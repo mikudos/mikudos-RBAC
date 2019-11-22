@@ -36,3 +36,8 @@ deploy:
 .PHONY:istio-deploy
 istio-deploy:
 	kubectl apply -f <(istioctl kube-inject -f deployment/frontend_deployment.yaml)
+
+.PHONY: run-client
+run-client:
+	grpcc --proto ./proto/users/users.proto --address 127.0.0.1:$(PORT) -i
+	# let ee = client.sayHello({name:"yue"}, printReply)

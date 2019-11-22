@@ -38,6 +38,7 @@ export default function(app: Application) {
         // Define associations here
         // See http://docs.sequelizejs.com/en/latest/docs/associations/
     };
+    role_methods.sync();
 
     return role_methods;
 }

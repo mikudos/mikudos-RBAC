@@ -1,6 +1,9 @@
 import ServiceClass from './grpc_service.class';
 const service = new ServiceClass();
 
+export async function UpdateGrpcMethods(ctx: any) {
+    await service['UpdateGrpcMethods'](ctx);
+}
 
 export async function ListGrpcServer(ctx: any) {
     await service['ListGrpcServer'](ctx);
@@ -21,4 +24,3 @@ export async function GetServiceListOnServer(ctx: any) {
 export async function getMethodsListInService(ctx: any) {
     await service['getMethodsListInService'](ctx);
 }
-

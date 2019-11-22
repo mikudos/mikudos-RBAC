@@ -50,7 +50,7 @@ message Method {
 }
 
 message UpdateMethodsRequest {
-  string filePath = 1;
+  string fileName = 1;
   string format = 2;
   repeated Method methods = 3;
 }

@@ -8,7 +8,15 @@ export default function(app: Application) {
     const methods = sequelizeClient.define(
         'methods',
         {
-            name: {
+            file: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+            package: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+            service: {
                 type: DataTypes.STRING,
                 allowNull: false
             },
@@ -17,17 +25,12 @@ export default function(app: Application) {
                 allowNull: false,
                 unique: true
             },
-            package: {
-                type: DataTypes.STRING,
-                allowNull: false
-            },
-            serivce: {
-                type: DataTypes.STRING,
-                allowNull: false
-            },
             method: {
                 type: DataTypes.STRING,
                 allowNull: false
+            },
+            type: {
+                type: DataTypes.STRING
             }
         },
         {
@@ -44,6 +47,7 @@ export default function(app: Application) {
         // Define associations here
         // See http://docs.sequelizejs.com/en/latest/docs/associations/
     };
+    methods.sync();
 
     return methods;
 }
