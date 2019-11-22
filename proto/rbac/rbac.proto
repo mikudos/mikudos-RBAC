@@ -3,11 +3,12 @@ syntax = "proto3";
 package rbac;
 
 service GrpcService {
+  rpc UpdateGrpcMethods(UpdateMethodsRequest) returns (stream Rbac) {}
   rpc ListGrpcServer(FindRequest) returns (stream Rbac) {}
   rpc ListServicesWithFullPath(FindRequest) returns (stream Rbac) {}
   rpc ListMethodsWithFullPath(FindRequest) returns (stream Rbac) {}
   rpc GetServiceListOnServer(FindRequest) returns (stream Rbac) {}
-  rpc getMethodsListInService(FindRequest) returns (stream Rbac) {}
+  rpc GetMethodsListInService(FindRequest) returns (stream Rbac) {}
 }
 
 service RoleService {
@@ -37,6 +38,21 @@ service GroupService {
 service RbacService {
   rpc VerifyAccessRightWithRids(VerifyWithIdsRequest) returns (Rbac) {}
   rpc VerifyAccessRightWithGids(VerifyWithIdsRequest) returns (Rbac) {}
+}
+
+message Method {
+  string file = 1;
+  string package = 2;
+  string service = 3;
+  string path = 4;
+  string name = 5;
+  string type = 6;
+}
+
+message UpdateMethodsRequest {
+  string filePath = 1;
+  string format = 2;
+  repeated Method methods = 3;
 }
 
 message FindRequest { string query = 1; }
@@ -88,6 +104,6 @@ message Rbac {
 }
 
 message VerifyWithIdsRequest {
-  required string fullPathMethod = 1;
+  string fullPathMethod = 1;
   repeated int32 ids = 2;
 }
