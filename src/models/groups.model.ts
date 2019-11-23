@@ -13,9 +13,9 @@ export default function(app: Application) {
                 allowNull: false,
                 unique: true
             },
+            description: DataTypes.STRING,
             rids: {
-                type: DataTypes.STRING,
-                allowNull: false
+                type: DataTypes.STRING
             },
             deletedAt: DataTypes.DATE
         },

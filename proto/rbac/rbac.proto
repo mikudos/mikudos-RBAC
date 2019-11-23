@@ -19,8 +19,8 @@ service RoleService {
   rpc DeleteRole(FindRequest) returns (DeleteResult) {}
   rpc DeleteRoleById(GetRequest) returns (DeleteResult) {}
   rpc GetRoleAccessesById(Role) returns (Role) {}
-  rpc AddAccessToRoleByRid(Role) returns (Role) {}
-  rpc DelAccessToRoleByRid(Role) returns (Role) {}
+  rpc AddAccessToRoleByRid(AddAccessRequest) returns (Role) {}
+  rpc DelAccessToRoleByRid(AddAccessRequest) returns (Role) {}
 }
 
 service GroupService {
@@ -31,8 +31,8 @@ service GroupService {
   rpc DeleteGroup(FindRequest) returns (DeleteResult) {}
   rpc DeleteGroupById(GetRequest) returns (DeleteResult) {}
   rpc GetGroupAccessesById(Group) returns (Group) {}
-  rpc AddRoleIdsToGroupByGid(Group) returns (Group) {}
-  rpc DelRoleIdsToGroupByGid(Group) returns (Group) {}
+  rpc AddRoleIdsToGroupByGid(AddRolesToGroupRequest) returns (Group) {}
+  rpc DelRoleIdsToGroupByGid(AddRolesToGroupRequest) returns (Group) {}
 }
 
 service RbacService {
@@ -98,9 +98,8 @@ message FindRoleResponse {
 }
 
 message RoleMethod {
-  int32 methodType = 1;
-  int32 methodId = 2;
-  string value = 3;
+  int32 id = 1;
+  string value = 4;
   string createdAt = 13;
   string updatedAt = 14;
 }
@@ -121,6 +120,12 @@ message UpdateRoleRequest {
   Role obj = 3;
 }
 
+message AddAccessRequest {
+  int32 roleId = 1;
+  string value = 2;
+  int32 delId = 3;
+}
+
 message FindGroupResponse {
   int64 count = 1;
   repeated Group rows = 2;
@@ -129,6 +134,8 @@ message FindGroupResponse {
 message Group {
   string id = 1;
   string name = 2;
+  string description = 3;
+  string rids = 4;
   string createdAt = 13;
   string updatedAt = 14;
   string deletedAt = 15;
@@ -138,6 +145,11 @@ message UpdateGroupRequest {
   string id = 1;
   string query = 2;
   Group obj = 3;
+}
+
+message AddRolesToGroupRequest {
+  int32 id = 1;
+  repeated int32 roleIds = 2;
 }
 
 message Rbac {

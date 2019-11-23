@@ -4,9 +4,7 @@ const { Op } = require('sequelize');
 export default class {
     options: any;
     softDeleteQuery = {
-        deletedAt: {
-            [Op.ne]: null
-        }
+        deletedAt: null
     };
     constructor(options?: any) {
         this.options = options || {};
@@ -98,14 +96,36 @@ export default class {
     }
 
     async AddAccessToRoleByRid(ctx: any) {
-        const app = ctx.app;
+        let roleId = ctx.req.roleId;
+        let value = ctx.req.value;
+        let res = await ctx.models.roleMethods.create({
+            roleId,
+            value
+        });
+        ctx.req.id = roleId;
 
-        ctx.res = { message: 'Hello '.concat(ctx.req.name) };
+        await this.GetRoleAccessesById(ctx);
     }
 
     async DelAccessToRoleByRid(ctx: any) {
-        const app = ctx.app;
+        let query;
+        let roleId = ctx.req.roleId;
+        let value = ctx.req.value;
+        if (ctx.req.delId) {
+            query = {
+                id: ctx.req.delId
+            };
+        } else if (roleId && value) {
+            query = {
+                roleId,
+                value
+            };
+        }
+        let res = await ctx.models.roleMethods.destroy({
+            where: query
+        });
+        ctx.req.id = roleId;
 
-        ctx.res = { message: 'Hello '.concat(ctx.req.name) };
+        await this.GetRoleAccessesById(ctx);
     }
 }

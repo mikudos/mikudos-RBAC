@@ -12,13 +12,6 @@ export default function(app: Application) {
                 type: DataTypes.INTEGER,
                 allowNull: false
             },
-            methodType: {
-                type: DataTypes.INTEGER, // 1: method_id; 2: method_path(regex)
-                allowNull: false
-            },
-            methodId: {
-                type: DataTypes.INTEGER
-            },
             value: {
                 type: DataTypes.STRING
             },
