@@ -3,12 +3,12 @@ syntax = "proto3";
 package rbac;
 
 service GrpcService {
-  rpc UpdateGrpcMethods(UpdateMethodsRequest) returns (stream Rbac) {}
-  rpc ListGrpcServer(FindRequest) returns (stream Rbac) {}
-  rpc ListServicesWithFullPath(FindRequest) returns (stream Rbac) {}
-  rpc ListMethodsWithFullPath(FindRequest) returns (stream Rbac) {}
-  rpc GetServiceListOnServer(FindRequest) returns (stream Rbac) {}
-  rpc GetMethodsListInService(FindRequest) returns (stream Rbac) {}
+  rpc UpdateGrpcMethods(UpdateMethodsRequest) returns (stream Method) {}
+  rpc ListGrpcServer(GetServiceRequest) returns (stream Method) {}
+  rpc ListServicesWithFullPath(GetServiceRequest) returns (stream Method) {}
+  rpc ListMethodsWithFullPath(GetServiceRequest) returns (stream Method) {}
+  rpc GetServiceListOnServer(GetServiceRequest) returns (stream Method) {}
+  rpc GetMethodsListInService(GetServiceRequest) returns (stream Method) {}
 }
 
 service RoleService {
@@ -40,6 +40,14 @@ service RbacService {
   rpc VerifyAccessRightWithGids(VerifyWithIdsRequest) returns (Rbac) {}
 }
 
+message GetServiceRequest {
+  string package = 1;
+  string service = 2;
+  string path = 3;
+  int32 offset = 4;
+  int32 limit = 5;
+}
+
 message Method {
   string file = 1;
   string package = 2;
@@ -47,6 +55,7 @@ message Method {
   string path = 4;
   string name = 5;
   string type = 6;
+  string servicePath = 7;
 }
 
 message UpdateMethodsRequest {

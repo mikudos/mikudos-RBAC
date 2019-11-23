@@ -39,5 +39,5 @@ istio-deploy:
 
 .PHONY: run-client
 run-client:
-	grpcc --proto ./proto/users/users.proto --address 127.0.0.1:$(PORT) -i
+	grpcc --proto ./proto/rbac/rbac.proto --address 127.0.0.1:$(PORT) -i
 	# let ee = client.sayHello({name:"yue"}, printReply)

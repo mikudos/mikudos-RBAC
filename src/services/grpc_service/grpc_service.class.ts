@@ -3,6 +3,7 @@ import yaml from 'js-yaml';
 import fs from 'fs';
 import path from 'path';
 import _ from 'lodash';
+const { Op } = require('sequelize');
 
 export default class {
     options: any;
@@ -33,35 +34,85 @@ export default class {
     }
 
     async ListGrpcServer(ctx: any) {
-        const app = ctx.app;
+        let res = await ctx.models.methods.findAll({
+            attributes: ['package'],
+            group: 'package',
+            raw: true
+        });
+        console.log('TCL: ListGrpcServer -> res', res);
 
-        ctx.res = highland([{ message: 'Hello!' }]);
+        ctx.res = highland(res);
         ctx.res.end();
     }
 
     async ListServicesWithFullPath(ctx: any) {
-        const app = ctx.app;
+        const sequelizeClient = ctx.app.get('sequelizeClient');
+        let res = await sequelizeClient.query(
+            'SELECT CONCAT_WS(".", package, service) as servicePath FROM `methods` GROUP BY servicePath',
+            {
+                type: sequelizeClient.QueryTypes.SELECT
+            }
+        );
+        console.log('TCL: ListServicesWithFullPath -> res', res);
 
-        ctx.res = highland([{ message: 'Hello!' }]);
+        ctx.res = highland(res);
         ctx.res.end();
     }
 
     async ListMethodsWithFullPath(ctx: any) {
-        const app = ctx.app;
+        let page = { offset: ctx.req.offset, limit: ctx.req.limit };
+        let res = await ctx.models.methods.findAll({
+            attributes: ['package', 'service', 'method', 'type', 'path'],
+            raw: true,
+            ...page
+        });
+        console.log('TCL: ListGrpcServer -> res', res);
 
-        ctx.res = highland([{ message: 'Hello!' }]);
+        ctx.res = highland(res);
         ctx.res.end();
     }
 
     async GetServiceListOnServer(ctx: any) {
-        const app = ctx.app;
+        const sequelizeClient = ctx.app.get('sequelizeClient');
+        let res = await sequelizeClient.query(
+            `SELECT service FROM \`methods\` WHERE package="${ctx.req.package}" GROUP BY service`,
+            {
+                type: sequelizeClient.QueryTypes.SELECT
+            }
+        );
+        console.log('TCL: ListServicesWithFullPath -> res', res);
 
-        ctx.res = highland([{ message: 'Hello!' }]);
+        ctx.res = highland(res);
         ctx.res.end();
     }
 
     async getMethodsListInService(ctx: any) {
-        const app = ctx.app;
+        let page = { offset: ctx.req.offset, limit: ctx.req.limit };
+        console.log('TCL: getMethodsListInService -> page', page);
+        let res: any;
+        if (ctx.req.path) {
+            res = await ctx.models.methods.findAll({
+                where: {
+                    path: {
+                        [Op.like]: ctx.req.path
+                    }
+                },
+                attributes: ['package', 'service', 'method', 'type', 'path'],
+                raw: true,
+                ...page
+            });
+        } else {
+            res = await ctx.models.methods.findAll({
+                where: {
+                    package: ctx.req.package,
+                    service: ctx.req.service
+                },
+                attributes: ['package', 'service', 'method', 'type', 'path'],
+                raw: true,
+                ...page
+            });
+        }
+        console.log('TCL: ListGrpcServer -> res', res);
 
         ctx.res = highland([{ message: 'Hello!' }]);
         ctx.res.end();

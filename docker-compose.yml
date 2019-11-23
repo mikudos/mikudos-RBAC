@@ -7,8 +7,9 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_USER: event
-      MYSQL_PASSWORD: event
+      MYSQL_DATABASE: rbac
+      MYSQL_USER: rbac
+      MYSQL_PASSWORD: rbac
       MYSQL_ROOT_PASSWORD: EventMysqlServerPassword
     volumes:
       - "$PWD/data/mysql:/var/lib/mysql"
