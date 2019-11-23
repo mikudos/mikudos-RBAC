@@ -1,9 +1,8 @@
 import ServiceClass from './group_service.class';
 const service = new ServiceClass();
 
-
-export async function ListGroup(ctx: any) {
-    await service['ListGroup'](ctx);
+export async function FindGroup(ctx: any) {
+    await service['FindGroup'](ctx);
 }
 
 export async function GetOneGroup(ctx: any) {
@@ -37,4 +36,3 @@ export async function AddRoleIdsToGroupByGid(ctx: any) {
 export async function DelRoleIdsToGroupByGid(ctx: any) {
     await service['DelRoleIdsToGroupByGid'](ctx);
 }
-

@@ -12,7 +12,9 @@ export default function(app: Application) {
                 type: DataTypes.STRING,
                 allowNull: false,
                 unique: true
-            }
+            },
+            description: DataTypes.STRING,
+            deletedAt: DataTypes.DATE
         },
         {
             hooks: {
@@ -27,6 +29,10 @@ export default function(app: Application) {
     (roles as any).associate = function(models: any) {
         // Define associations here
         // See http://docs.sequelizejs.com/en/latest/docs/associations/
+        (roles as any).hasMany(models.roleMethods, {
+            foreignKey: 'roleId',
+            sourceKey: 'id'
+        });
     };
     roles.sync();
 

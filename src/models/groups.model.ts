@@ -16,7 +16,8 @@ export default function(app: Application) {
             rids: {
                 type: DataTypes.STRING,
                 allowNull: false
-            }
+            },
+            deletedAt: DataTypes.DATE
         },
         {
             hooks: {

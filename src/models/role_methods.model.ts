@@ -8,10 +8,9 @@ export default function(app: Application) {
     const role_methods = sequelizeClient.define(
         'role_methods',
         {
-            rid: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                unique: true
+            roleId: {
+                type: DataTypes.INTEGER,
+                allowNull: false
             },
             methodType: {
                 type: DataTypes.INTEGER, // 1: method_id; 2: method_path(regex)
@@ -22,7 +21,8 @@ export default function(app: Application) {
             },
             value: {
                 type: DataTypes.STRING
-            }
+            },
+            deletedAt: DataTypes.DATE
         },
         {
             hooks: {
@@ -37,6 +37,7 @@ export default function(app: Application) {
     (role_methods as any).associate = function(models: any) {
         // Define associations here
         // See http://docs.sequelizejs.com/en/latest/docs/associations/
+        (role_methods as any).belongsTo(models.roles);
     };
     role_methods.sync();
 

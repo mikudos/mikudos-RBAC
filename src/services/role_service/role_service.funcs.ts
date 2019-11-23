@@ -1,9 +1,8 @@
 import ServiceClass from './role_service.class';
 const service = new ServiceClass();
 
-
-export async function ListRole(ctx: any) {
-    await service['ListRole'](ctx);
+export async function FindRole(ctx: any) {
+    await service['FindRole'](ctx);
 }
 
 export async function GetOneRole(ctx: any) {
@@ -37,4 +36,3 @@ export async function AddAccessToRoleByRid(ctx: any) {
 export async function DelAccessToRoleByRid(ctx: any) {
     await service['DelAccessToRoleByRid'](ctx);
 }
-

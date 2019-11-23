@@ -6,11 +6,10 @@ export default class {
         this.options = options || {};
     }
 
-    async ListGroup(ctx: any) {
+    async FindGroup(ctx: any) {
         const app = ctx.app;
 
-        ctx.res = highland([{ message: 'Hello!' }]);
-        ctx.res.end();
+        ctx.res = { message: 'Hello '.concat(ctx.req.name) };
     }
 
     async GetOneGroup(ctx: any) {

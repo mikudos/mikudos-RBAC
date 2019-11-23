@@ -12,10 +12,10 @@ service GrpcService {
 }
 
 service RoleService {
-  rpc ListRole(FindRequest) returns (stream Role) {}
+  rpc FindRole(FindRequest) returns (FindRoleResponse) {}
   rpc GetOneRole(GetRequest) returns (Role) {}
   rpc CreateRole(Role) returns (Role) {}
-  rpc UpdateRoleById(GetRequest) returns (Role) {}
+  rpc UpdateRoleById(UpdateRoleRequest) returns (FindRoleResponse) {}
   rpc DeleteRole(FindRequest) returns (DeleteResult) {}
   rpc DeleteRoleById(GetRequest) returns (DeleteResult) {}
   rpc GetRoleAccessesById(Role) returns (Role) {}
@@ -24,10 +24,10 @@ service RoleService {
 }
 
 service GroupService {
-  rpc ListGroup(FindRequest) returns (stream Group) {}
+  rpc FindGroup(FindRequest) returns (FindGroupResponse) {}
   rpc GetOneGroup(GetRequest) returns (Group) {}
   rpc CreateGroup(Group) returns (Group) {}
-  rpc UpdateGroupById(GetRequest) returns (Group) {}
+  rpc UpdateGroupById(UpdateGroupRequest) returns (FindGroupResponse) {}
   rpc DeleteGroup(FindRequest) returns (DeleteResult) {}
   rpc DeleteGroupById(GetRequest) returns (DeleteResult) {}
   rpc GetGroupAccessesById(Group) returns (Group) {}
@@ -64,7 +64,11 @@ message UpdateMethodsRequest {
   repeated Method methods = 3;
 }
 
-message FindRequest { string query = 1; }
+message FindRequest {
+  string query = 1;
+  int32 offset = 4;
+  int32 limit = 5;
+}
 
 message GetRequest {
   string id = 1;
@@ -88,12 +92,38 @@ message DeleteResult {
   int32 num = 2;
 }
 
+message FindRoleResponse {
+  int64 count = 1;
+  repeated Role rows = 2;
+}
+
+message RoleMethod {
+  int32 methodType = 1;
+  int32 methodId = 2;
+  string value = 3;
+  string createdAt = 13;
+  string updatedAt = 14;
+}
+
 message Role {
   string id = 1;
   string name = 2;
+  string description = 3;
+  repeated RoleMethod roleMethods = 4;
   string createdAt = 13;
   string updatedAt = 14;
   string deletedAt = 15;
+}
+
+message UpdateRoleRequest {
+  string id = 1;
+  string query = 2;
+  Role obj = 3;
+}
+
+message FindGroupResponse {
+  int64 count = 1;
+  repeated Group rows = 2;
 }
 
 message Group {
@@ -102,6 +132,12 @@ message Group {
   string createdAt = 13;
   string updatedAt = 14;
   string deletedAt = 15;
+}
+
+message UpdateGroupRequest {
+  string id = 1;
+  string query = 2;
+  Group obj = 3;
 }
 
 message Rbac {
