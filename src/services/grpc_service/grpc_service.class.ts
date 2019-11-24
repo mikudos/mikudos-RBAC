@@ -39,7 +39,6 @@ export default class {
             group: 'package',
             raw: true
         });
-        console.log('TCL: ListGrpcServer -> res', res);
 
         ctx.res = highland(res);
         ctx.res.end();
@@ -53,7 +52,6 @@ export default class {
                 type: sequelizeClient.QueryTypes.SELECT
             }
         );
-        console.log('TCL: ListServicesWithFullPath -> res', res);
 
         ctx.res = highland(res);
         ctx.res.end();
@@ -66,7 +64,6 @@ export default class {
             raw: true,
             ...page
         });
-        console.log('TCL: ListGrpcServer -> res', res);
 
         ctx.res = highland(res);
         ctx.res.end();
@@ -80,7 +77,6 @@ export default class {
                 type: sequelizeClient.QueryTypes.SELECT
             }
         );
-        console.log('TCL: ListServicesWithFullPath -> res', res);
 
         ctx.res = highland(res);
         ctx.res.end();
@@ -88,7 +84,6 @@ export default class {
 
     async getMethodsListInService(ctx: any) {
         let page = { offset: ctx.req.offset, limit: ctx.req.limit };
-        console.log('TCL: getMethodsListInService -> page', page);
         let res: any;
         if (ctx.req.path) {
             res = await ctx.models.methods.findAll({
@@ -112,7 +107,6 @@ export default class {
                 ...page
             });
         }
-        console.log('TCL: ListGrpcServer -> res', res);
 
         ctx.res = highland([{ message: 'Hello!' }]);
         ctx.res.end();

@@ -17,7 +17,6 @@ export default class {
             where: { ...query, ...this.softDeleteQuery },
             ...page
         });
-        console.log('TCL: FindRole -> res', res);
 
         ctx.res = res;
     }
@@ -58,7 +57,6 @@ export default class {
             where: { ...query, ...this.softDeleteQuery },
             fields: ['name', 'description']
         });
-        console.log('TCL: UpdateRoleById -> res', res);
         ctx.res = { count: res[0] };
     }
 
@@ -67,7 +65,6 @@ export default class {
         let res = await ctx.models.roles.destroy({
             where: query
         });
-        console.log('TCL: DeleteRole -> res', res);
 
         ctx.res = { state: res ? true : false, num: res };
     }
@@ -78,7 +75,6 @@ export default class {
                 id: ctx.req.id
             }
         });
-        console.log('TCL: DeleteRole -> res', res);
 
         ctx.res = { state: res ? true : false, num: res };
     }
