@@ -89,13 +89,29 @@ export default class {
         ctx.res = { state: res ? true : false, num: res };
     }
 
-    // TODO:
     async GetGroupAccessesById(ctx: any) {
-        let res = await ctx.models.groups.findOne({
+        let group = await ctx.models.groups.findOne({
             where: { id: ctx.req.id }
         });
+        let ridsArr = compact((group.rids as string).split(','));
+        let roles = await ctx.models.roles.findAll({
+            where: {
+                id: {
+                    [Op.in]: ridsArr
+                }
+            },
+            include: { model: ctx.models.roleMethods }
+        });
+        roles = roles.map((role: any) => {
+            role.roleMethods = role.role_methods.map(
+                (method: any) => method.dataValues
+            );
+            return role;
+        });
+        console.log('TCL: GetGroupAccessesById -> roles', roles);
 
-        ctx.res = res;
+        ctx.res = highland(roles);
+        ctx.res.end();
     }
 
     async AddRoleIdsToGroupByGid(ctx: any) {

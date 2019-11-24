@@ -30,7 +30,7 @@ service GroupService {
   rpc UpdateGroupById(UpdateGroupRequest) returns (FindGroupResponse) {}
   rpc DeleteGroup(FindRequest) returns (DeleteResult) {}
   rpc DeleteGroupById(GetRequest) returns (DeleteResult) {}
-  rpc GetGroupAccessesById(Group) returns (Group) {}
+  rpc GetGroupAccessesById(Group) returns (stream Role) {}
   rpc AddRoleIdsToGroupByGid(AddRolesToGroupRequest) returns (Group) {}
   rpc DelRoleIdsToGroupByGid(AddRolesToGroupRequest) returns (Group) {}
 }
@@ -153,11 +153,7 @@ message AddRolesToGroupRequest {
 }
 
 message Rbac {
-  string id = 1;
-  string name = 2;
-  string createdAt = 13;
-  string updatedAt = 14;
-  string deletedAt = 15;
+  bool passed = 1;
 }
 
 message VerifyWithIdsRequest {

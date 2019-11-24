@@ -85,7 +85,7 @@ export default class {
 
     async GetRoleAccessesById(ctx: any) {
         let res = await ctx.models.roles.findOne({
-            where: { id: '1' },
+            where: { id: ctx.req.id },
             include: { model: ctx.models.roleMethods }
         });
         res.roleMethods = res.role_methods.map(
