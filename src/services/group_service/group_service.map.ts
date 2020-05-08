@@ -1,9 +1,11 @@
 export = {
-    GameStart: 'GameStart',
-    AnwserQuestionInGame: 'AnwserQuestionInGame',
-    EventRequestInGame: 'EventRequestInGame',
-    ResetGame: 'ResetGame',
-    ResetGameProcess: 'ResetGameProcess',
-    RelaunchGameProcess: 'RelaunchGameProcess',
-    SetUserGameProfile: 'SetUserGameProfile'
+    FindGroup: 'FindGroup',
+    GetOneGroup: 'GetOneGroup',
+    CreateGroup: 'CreateGroup',
+    UpdateGroupById: 'UpdateGroupById',
+    DeleteGroup: 'DeleteGroup',
+    DeleteGroupById: 'DeleteGroupById',
+    GetGroupAccessesById: 'GetGroupAccessesById',
+    AddRoleIdsToGroupByGid: 'AddRoleIdsToGroupByGid',
+    DelRoleIdsToGroupByGid: 'DelRoleIdsToGroupByGid'
 };
