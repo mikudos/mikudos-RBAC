@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import { Application } from 'mikudos-node-app';
+import { Application, Service, Method } from 'mikudos-node-app';
 
+@Service({ name: 'RbacService', serviceName: 'RbacService' })
 export default class {
     constructor(private options = {}, public app: Application) {
         this.options = options || {};
@@ -15,6 +16,7 @@ export default class {
         return !!matched && matched[0] === fullPathMethod;
     }
 
+    @Method('VerifyAccessRightWithRids')
     async VerifyAccessRightWithRids(ctx: any) {
         const roleIds = ctx.req.ids;
         let method = ctx.req.fullPathMethod;
@@ -26,8 +28,8 @@ export default class {
             return (ctx.res = {
                 passed: this.checkDefaultRoleRight(
                     method,
-                    (ctx.app as Application).config.default_method_regex || '.*'
-                )
+                    (ctx.app as Application).get('default_method_regex') || '.*'
+                ),
             });
         }
         let pathArr = (method as string).split('.');
@@ -48,13 +50,14 @@ export default class {
                 pathArr[0]
             }' OR role_methods.value = '${method}')`,
             {
-                type: sequelizeClient.QueryTypes.SELECT
+                type: sequelizeClient.QueryTypes.SELECT,
             }
         );
 
         ctx.res = { passed: !!res[0].matched };
     }
 
+    @Method('VerifyAccessRightWithGids')
     async VerifyAccessRightWithGids(ctx: any) {
         const groupIds = ctx.req.ids;
         let method = ctx.req.fullPathMethod;
@@ -66,8 +69,8 @@ export default class {
             return (ctx.res = {
                 passed: this.checkDefaultRoleRight(
                     method,
-                    (ctx.app as Application).config.default_method_regex || '.*'
-                )
+                    (ctx.app as Application).get('default_method_regex') || '.*'
+                ),
             });
         }
         let pathArr = (method as string).split('.');
@@ -87,7 +90,7 @@ export default class {
                 pathArr[0]
             }' OR role_methods.value = '${method}')`,
             {
-                type: sequelizeClient.QueryTypes.SELECT
+                type: sequelizeClient.QueryTypes.SELECT,
             }
         );
 

@@ -5,7 +5,7 @@ import RoleService from './role_service';
 import GroupService from './group_service';
 import RbacService from './rbac_service';
 
-export default function(app: Application): void {
+export default function (app: Application): void {
     app.configure(GrpcService);
     app.configure(RoleService);
     app.configure(GroupService);

@@ -1,27 +1,30 @@
 import highland from 'highland';
 import { compact, concat, uniq, difference } from 'lodash';
-import { Application } from 'mikudos-node-app';
+import { Application, Service, Method, App } from 'mikudos-node-app';
 const { Op } = require('sequelize');
 
+@Service({ name: 'GroupService', serviceName: 'GroupService' })
 export default class {
     softDeleteQuery = {
-        deletedAt: null
+        deletedAt: null,
     };
-    constructor(private options = {}, public app: Application) {
+    constructor(private options = {}, @App() private app: Application) {
         this.options = options || {};
     }
 
+    @Method('FindGroup')
     async FindGroup(ctx: any) {
         let query = JSON.parse(ctx.req.query);
         let page = { offset: ctx.req.offset, limit: ctx.req.limit };
         let res = await ctx.models.groups.findAndCountAll({
             where: { ...query, ...this.softDeleteQuery },
-            ...page
+            ...page,
         });
 
         ctx.res = res;
     }
 
+    @Method('GetOneGroup')
     async GetOneGroup(ctx: any) {
         let res: any;
         if (ctx.req.id) {
@@ -32,13 +35,14 @@ export default class {
                 query = JSON.parse(ctx.req.query);
             } catch (error) {}
             res = await ctx.models.groups.findOne({
-                where: { ...query, ...this.softDeleteQuery }
+                where: { ...query, ...this.softDeleteQuery },
             });
         }
 
         ctx.res = res;
     }
 
+    @Method('CreateGroup')
     async CreateGroup(ctx: any) {
         let res;
         try {
@@ -50,6 +54,7 @@ export default class {
         ctx.res = res;
     }
 
+    @Method('UpdateGroupById')
     async UpdateGroupById(ctx: any) {
         let updateObj = ctx.req.obj;
         let query;
@@ -61,42 +66,45 @@ export default class {
         if (!query) throw new Error('Invalid Query params');
         let res = await ctx.models.groups.update(updateObj, {
             where: { ...query, ...this.softDeleteQuery },
-            fields: ['name', 'description']
+            fields: ['name', 'description'],
         });
         ctx.res = { count: res[0] };
     }
 
+    @Method('DeleteGroup')
     async DeleteGroup(ctx: any) {
         let query = JSON.parse(ctx.req.query);
         let res = await ctx.models.groups.destroy({
-            where: query
+            where: query,
         });
 
         ctx.res = { state: res ? true : false, num: res };
     }
 
+    @Method('DeleteGroupById')
     async DeleteGroupById(ctx: any) {
         let res = await ctx.models.groups.destroy({
             where: {
-                id: ctx.req.id
-            }
+                id: ctx.req.id,
+            },
         });
 
         ctx.res = { state: res ? true : false, num: res };
     }
 
+    @Method('GetGroupAccessesById')
     async GetGroupAccessesById(ctx: any) {
         let group = await ctx.models.groups.findOne({
-            where: { id: ctx.req.id }
+            where: { id: ctx.req.id },
         });
         let ridsArr = compact((group.rids as string).split(','));
         let roles = await ctx.models.roles.findAll({
             where: {
                 id: {
-                    [Op.in]: ridsArr
-                }
+                    [Op.in]: ridsArr,
+                },
             },
-            include: { model: ctx.models.roleMethods }
+            include: { model: ctx.models.roleMethods },
         });
         roles = roles.map((role: any) => {
             role.roleMethods = role.role_methods.map(
@@ -109,38 +117,40 @@ export default class {
         ctx.res.end();
     }
 
+    @Method('AddRoleIdsToGroupByGid')
     async AddRoleIdsToGroupByGid(ctx: any) {
         let group = await ctx.models.groups.findOne({
-            where: { id: ctx.req.id }
+            where: { id: ctx.req.id },
         });
-        let oldRids = (group.rids as string).split(',').map(s => parseInt(s));
+        let oldRids = (group.rids as string).split(',').map((s) => parseInt(s));
         oldRids = compact(oldRids);
         let rids = uniq(concat(oldRids, ctx.req.roleIds as number[])).join(',');
         const sequelizeClient = ctx.app.get('sequelizeClient');
         let res = await sequelizeClient.query(
             `UPDATE \`groups\` SET rids="${rids}" WHERE id=${ctx.req.id}`,
             {
-                type: sequelizeClient.QueryTypes.UPDATE
+                type: sequelizeClient.QueryTypes.UPDATE,
             }
         );
 
         await this.GetGroupAccessesById(ctx);
     }
 
+    @Method('DelRoleIdsToGroupByGid')
     async DelRoleIdsToGroupByGid(ctx: any) {
         let group = await ctx.models.groups.findOne({
-            where: { id: ctx.req.id }
+            where: { id: ctx.req.id },
         });
-        let oldRids = (group.rids as string).split(',').map(s => parseInt(s));
+        let oldRids = (group.rids as string).split(',').map((s) => parseInt(s));
         oldRids = compact(oldRids);
         let rids = difference(oldRids, ctx.req.roleIds as number[]).join(',');
         let res = await ctx.models.groups.update(
             {
-                rids
+                rids,
             },
             {
                 where: { id: ctx.req.id, ...this.softDeleteQuery },
-                fields: ['rids']
+                fields: ['rids'],
             }
         );
 
