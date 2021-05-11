@@ -35,7 +35,7 @@
         "grpc-caller": "^0.13.0",
         "highland": "^2.13.5",
         "kafkajs": "^1.10.0",
-        "lodash": "^4.17.15",
+        "lodash": "^4.17.21",
         "mali": "^0.18.0",
         "mikudos-node-app": "^1.1.22",
         "mysql2": "^2.0.0",
