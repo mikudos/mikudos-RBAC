@@ -31,7 +31,7 @@
         "compile": "shx rm -rf lib/ && tsc"
     },
     "dependencies": {
-        "grpc": "^1.23.3",
+        "grpc": "^1.24.9",
         "grpc-caller": "^0.13.0",
         "highland": "^2.13.5",
         "kafkajs": "^1.10.0",
